@@ -1,15 +1,15 @@
-# CashFlowPro
-Uma API de controle de despesas pessoais.
+# SleepGood
+Uma API de controle de Reserva de Hotel.
 
 
 ## Endpoints
 
-- Categorias
+- Reserva
     - [Listar Todas](#listar-todas)
-    - [Detalhar](#detalhar-categorias)
-    - [Cadastrar](#cadastrar-categoria)
-    - [Apagar](#apagar-categoria)
-    - [Editar](#editar-categoria)
+    - [Detalhar](#detalhar-reserva)
+    - [Cadastrar](#cadastrar-reserva)
+    - [Apagar](#apagar-reserva)
+    - [Editar](#editar-reserva)
 
 - Movimentações
 
@@ -17,9 +17,9 @@ Uma API de controle de despesas pessoais.
 
 ### Listar Todas
 
-`GET` /categoria
+`GET` /reserva
 
-Retorna um array com todas as categorias cadastradas.
+Retorna um array com todas as pessoas cadastradas.
 
 **Exemplo de Resposta** 
 
@@ -27,8 +27,12 @@ Retorna um array com todas as categorias cadastradas.
 [
     {
         "id": 1,
-        "nome": "Alimentação",
-        "icone": "fast-food"
+        "nome": "Daniel Alvez De Souza",
+        "cpf": "18746877654",
+        "checkin": "28/02/2024"
+        "numeroQuarto": 181
+        "checkout": "29/02/2024",
+        "icone": "Cliente"
     }
 ]
 ```
@@ -41,20 +45,24 @@ Retorna um array com todas as categorias cadastradas.
 
 ---
 
-### Detalhar Categorias
+### Detalhar Reserva
 
-`GET` /categoria/{id}
+`GET` /reserva/{id}
 
-Retornar os dados da categoria com o `id` informado.
+Retornar os dados da reserva com o `id` informado.
 
 **Exemplo de Resposta** 
 
 ```js
 
     {
-        "id": 1,
-        "nome": "Alimentação",
-        "icone": "fast-food"
+        "id": 2,
+        "nome": "Matheus De Castro Telles Rodrigues",
+        "cpf": "23546879654",
+        "numeroQuarto": 157,
+        "checkin": "15/01/2024",
+        "checkout": "31/01/2024",
+        "icone": "Cliente"
     }
 
 ```
@@ -64,39 +72,42 @@ Retornar os dados da categoria com o `id` informado.
 | código | descrição |
 |--------|-----------|
 |200|Dados retornados com sucesso
-|404| Id da categoria não encontrado
+|404| Id da reserva não encontrado
 
 ___
 
 
-### Cadastrar Categoria
+### Cadastrar Reserva
 
-`POST` /categoria
+`POST` /reserva
 
-Insere uma nova categoria.
+Insere uma nova reserva.
 
 **Corpo da Requisição** 
 
 |campo|tipo|obrigatório|descrição
 |-----|----|:-----------:|---------
-|nome|string|✅|Um nome curto para a categoria
+|nome|string|✅|Um nome curto para a reserva
 |icone|string|❌|O nome do ícone conforme Material Icons
+|cpf|string|✅|Um cpf para realizar a reserva
+|numeroQuarto|integer|✅|O numero do quarto do cliente
+|checkin|date|✅|A data de checkin 
+|checkout|date|✅|A data de checkout
 
 
-```js
-{
-    "nome": "Alimentação",
-    "icone": "fast-food"
-}
-```
+
 
 **Exemplo de Resposta** 
 
 ```js
 {
-    "id": 1,
-    "nome": "Alimentação",
-    "icone": "fast-food"
+        "id": 3,
+        "nome": "Henry Ribeiro Komatsu",
+        "cpf": "58249847658",
+        "numeroQuarto": 349,
+        "checkin": "21/01/2024", 
+        "checkout": "29/02/2024",
+        "icone": "Cliente"
 }
 ```
 
@@ -104,44 +115,54 @@ Insere uma nova categoria.
 
 | código | descrição |
 |--------|-----------|
-|201|Categoria criada com sucesso
+|201|reserva criada com sucesso
 |400|Erro de validação - verifique o corpo da requisição
 
 ---
 
-### Apagar Categoria
+### Apagar Reserva
 
-`DELETE` /categoria/{id}
+`DELETE` /reserva/{id}
 
-Apaga a categoria com o `id` informado.
+Apaga a reserva com o `id` informado.
 
 **Códigos de Status** 
 
 | código | descrição |
 |--------|-----------|
-|204|Categoria apagada com sucesso
-|404| Id da categoria não encontrado
+|204|lista apagada com sucesso
+|404|Id da reserva não encontrado
 
 ___
 
-### Editar Categoria
+### Editar Reserva
 
-`PUT` /categoria/{id}
+`PUT` /reserva/{id}
 
-Atualiza os dados da categoria com o `id` informado.
+Atualiza os dados da reserva com o `id` informado.
 
 **Corpo da Requisição** 
 
 |campo|tipo|obrigatório|descrição
 |-----|----|:-----------:|---------
-|nome|string|✅|Um nome curto para a categoria
-|icone|string|✅|O nome do ícone conforme Material Icons
+|nome|string|✅|Um nome curto para a reserva
+|icone|string|❌|O nome do ícone conforme Material Icons
+|cpf|string|✅|Um cpf para realizar a reserva
+|numeroQuarto|integer|✅|O numero do quarto do cliente
+|checkin|date|✅|A data de checkin 
+|checkout|date|✅|A data de checkout
+
 
 
 ```js
 {
-    "nome": "Alimentação",
-    "icone": "fast-food"
+        
+        "nome": "Henry Ribeiro Komatsu",
+        "cpf": "58249847658",
+        "numeroQuarto": 890,
+        "checkin": "21/01/2024", 
+        "checkout": "29/02/2024",
+        "icone": "Cliente"
 }
 ```
 
@@ -149,17 +170,20 @@ Atualiza os dados da categoria com o `id` informado.
 
 ```js
 {
-    "id": 1,
-    "nome": "Alimentação",
-    "icone": "fast-food"
+        "id": 3,
+        "nome": "Henry Ribeiro Komatsu",
+        "cpf": "58249847658",
+        "numeroQuarto": 890,
+        "checkin": "21/01/2024", 
+        "checkout": "29/02/2024",
+        "icone": "Cliente"
 }
 ```
 
 **Códigos de Status** 
 
-| código | descrição |
-|--------|-----------|
-|200|Categoria atualizada com sucesso
-|400| A validação falhou - verifique o corpo da requisição
-|404| Id da categoria não encontrado
+
+ |200| Lista atualizada com sucesso
+ |400| A validação falhou - verifique o corpo da requisição
+ |404| Id da reserva não encontrado
 
