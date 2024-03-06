@@ -3,9 +3,9 @@ package com.example.SleepGood.model;
 import java.util.Random;
 
 // os valores de record n podem ser mudados o objeto categoria durante a passagem de uma passem pra outra ninguem pode mudar categoria
-public record Reserva(Long id, String nome, String cpf, Float numeroQuarto, Float checkin, Float checkout, String Icone) {
+public record Reserva(Long id, String nome, String cpf, int numeroQuarto, String checkin, String checkout, String Icone) {
 //o record n tem metodos set
-    public Reserva(Long id, String nome, String cpf, Float numeroQuarto, Float checkin, Float checkout, String Icone ){
+    public Reserva(Long id, String nome, String cpf, int numeroQuarto, String checkin, String checkout, String Icone ){
         //o abs pega só o numero absoluto ignorando o sinal
         var key = (id!= null) ? id : Math.abs(new Random().nextLong() );// se já tem id, n é preciso passar um aleatorio pois pega o que já tem
         this.id = key; //esses comportamento do id é o que difere do record
@@ -16,6 +16,8 @@ public record Reserva(Long id, String nome, String cpf, Float numeroQuarto, Floa
         this.checkout = checkout;
         this.Icone = Icone;
 
+
+        
 
     }
 }

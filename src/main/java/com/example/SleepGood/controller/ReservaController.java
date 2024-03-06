@@ -22,6 +22,7 @@ public class ReservaController {
     List<Reserva> repository = new ArrayList<>();
 
     @RequestMapping(method=RequestMethod.GET , path="/Reserva")//n precisa mais d: produces = "application/json"
+    @ResponseBody
     public List<Reserva> index(){
         return repository;
     }
