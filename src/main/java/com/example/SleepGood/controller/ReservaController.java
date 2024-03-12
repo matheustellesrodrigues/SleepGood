@@ -1,57 +1,39 @@
 package com.example.SleepGood.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.SleepGood.model.Reserva;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ReservaController {
 
-    Logger log = LoggerFactory.getLogger(getClass());
-    List<Reserva> repository = new ArrayList<>();
+    @Autowired
+    private ReservaRepository reservaRepository;
 
-    @RequestMapping(method=RequestMethod.GET , path="/Reserva")//n precisa mais d: produces = "application/json"
+    @GetMapping("/Reserva")
     @ResponseBody
-    public List<Reserva> index(){
-        return repository;
-    }
-    //@ResponseStatus(code = HttpStatus.CREATED)//vai responder com 201, q é o codigo d criação
-    @RequestMapping(method=RequestMethod.POST ,path="/Reserva")
-    @ResponseBody
-    public ResponseEntity<Reserva> create(@RequestBody Reserva reserva){
-        // categoria.setId(new Random().nextLong()); //esse codigo é responsabilidade da Categoria, e n deve estar aqui
-        log.info("cadastrando Reservas: {}", reserva);
-        repository.add(reserva);
-        return ResponseEntity.status(201).body(reserva);
+    public List<Reserva> index() {
+        return reservaRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/Reserva/{id}")
+    @PostMapping("/Reserva")
     @ResponseBody
-    public ResponseEntity<Reserva> get (@PathVariable Long id) {
-        log.info("buscando Reserva com id {}", id);
-
-        //stream
-        var reserva = repository
-            .stream()
-            .filter(c -> c.id().equals(id))
-            .findFirst(); //esses codigo filtra por id e pega o primeiro resultado
-        
-        if (reserva.isEmpty()){
-                return ResponseEntity.status(404).build();
-            }
-                return ResponseEntity.status(200).body(reserva.get());
+    public ResponseEntity<Reserva> create(@RequestBody Reserva reserva) {
+        Reserva savedReserva = reservaRepository.save(reserva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReserva);
     }
 
-
+    @GetMapping("/Reserva/{id}")
+    @ResponseBody
+    public ResponseEntity<Reserva> get(@PathVariable Long id) {
+        Optional<Reserva> reserva = reservaRepository.findById(id);
+        return reserva.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

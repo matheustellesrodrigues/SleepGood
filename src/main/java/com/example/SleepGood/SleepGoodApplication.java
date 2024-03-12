@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @SpringBootApplication
 @Controller
-public class sleepgoodApplication {
+public class SleepGoodApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(sleepgoodApplication.class, args);
+		SpringApplication.run(SleepGoodApplication.class, args);
 	}
 	@RequestMapping
 	@ResponseBody
