@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.SleepGood.model.Reserva;
-
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.SleepGood.model.Reserva;
+import com.example.SleepGood.repository.ReservaRepository;
 
 @Controller
 public class ReservaController {
@@ -25,7 +28,10 @@ public class ReservaController {
 
     @PostMapping("/Reserva")
     @ResponseBody
-    public ResponseEntity<Reserva> create(@RequestBody Reserva reserva) {
+    public ResponseEntity<?> create(@Valid @RequestBody Reserva reserva, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Erro de validação: " + result.getAllErrors());
+        }
         Reserva savedReserva = reservaRepository.save(reserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReserva);
     }
