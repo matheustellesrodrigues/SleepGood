@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import lombok.Data;
 
@@ -20,11 +20,10 @@ public class Reserva {
     private String nome;
 
     @NotBlank(message = "O CPF não pode estar em branco")
-    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "Formato de CPF inválido")
     private String cpf;
 
-    @Positive(message = "O número do quarto deve ser positivo")
-    private int numeroQuarto;
+    @NotBlank(message = "O número do quarto deve ser informado")
+    private String numeroQuarto;
 
     @NotBlank(message = "A data de check-in não pode estar em branco")
     private String checkin;
@@ -33,5 +32,4 @@ public class Reserva {
     private String checkout;
 
     private String Icone;
-
 }
